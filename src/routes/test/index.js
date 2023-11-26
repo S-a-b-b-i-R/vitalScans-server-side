@@ -1,21 +1,12 @@
-const {
-    addUser,
-    updateUserByEmail,
-    getUserByEmail,
-    isUpdatedUser,
-    getAllUsers,
-    checkAdmin,
-} = require("../../api/User/user");
 const router = require("express").Router();
+const { getAllTests, getTestById, addTest } = require("../../api/Test/test");
 const jwt = require("jsonwebtoken");
-const User = require("../../Model/User");
 
 const verifyToken = (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(401).send("Unathorized Access");
     }
     const token = req.headers.authorization.split(" ")[1];
-
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).send("Unathorized Access");
@@ -36,11 +27,8 @@ const verifyAdmin = async (req, res, next) => {
     next();
 };
 
-router.post("/users", addUser);
-router.get("/users/admin/:email", verifyToken, checkAdmin);
-router.put("/users", verifyToken, updateUserByEmail);
-router.get("/users/:email", verifyToken, getUserByEmail);
-router.get("/users/isUpdated/:email", isUpdatedUser);
-router.get("/users", getAllUsers);
+router.get("/tests", getAllTests);
+router.get("/tests/:id", verifyAdmin, getTestById);
+router.post("/tests", verifyToken, verifyAdmin, addTest);
 
 module.exports = router;

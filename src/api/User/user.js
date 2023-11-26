@@ -38,4 +38,55 @@ const updateUserByEmail = async (req, res) => {
     }
 };
 
-module.exports = { addUser, updateUserByEmail };
+const getUserByEmail = async (req, res) => {
+    try {
+        const email = req.params.email;
+        const user = await User.findOne({ email: email });
+        res.status(200).json({ user });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const isUpdatedUser = async (req, res) => {
+    try {
+        const email = req.params.email;
+        const user = await User.findOne({ email: email });
+        if (user.bloodGroup && user.district && user.upazilla) {
+            res.status(200).json({ isUpdated: true });
+        } else {
+            res.status(200).json({ isUpdated: false });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json({ users });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const checkAdmin = async (req, res) => {
+    const email = req.params.email;
+    if (email !== req.decoded.email) {
+        return res.status(403).send({ message: "Unauthorized Access" });
+    }
+    const query = { email: email };
+    const user = await User.findOne(query);
+    const isAdmin = user?.role === "admin";
+    res.status(200).json({ isAdmin });
+};
+
+module.exports = {
+    addUser,
+    updateUserByEmail,
+    getUserByEmail,
+    isUpdatedUser,
+    getAllUsers,
+    checkAdmin,
+};

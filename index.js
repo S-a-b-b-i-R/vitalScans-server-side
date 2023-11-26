@@ -6,15 +6,17 @@ const port = process.env.PORT || 5000;
 const connectDB = require("./src/db/connectDB");
 const authRoutes = require("./src/routes/authentication");
 const userRoutes = require("./src/routes/user");
+const testRoutes = require("./src/routes/test");
 
 app.use(cors());
 app.use(express.json());
 
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(testRoutes);
 
 //routes
-app.get("/health", (req, res) => {
+app.get("/", (req, res) => {
     res.send("Diagnostic server is running....");
 });
 
