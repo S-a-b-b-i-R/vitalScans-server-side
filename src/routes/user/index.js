@@ -6,6 +6,7 @@ const {
     getAllUsers,
     checkAdmin,
     makeAdmin,
+    blockUserById,
 } = require("../../api/User/user");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
@@ -44,5 +45,6 @@ router.get("/users/:email", verifyToken, getUserByEmail);
 router.get("/users/isUpdated/:email", isUpdatedUser);
 router.get("/users", getAllUsers);
 router.patch("/users/admin/:id", verifyToken, verifyAdmin, makeAdmin);
+router.patch("/users/block/:id", verifyToken, verifyAdmin, blockUserById);
 
 module.exports = router;
