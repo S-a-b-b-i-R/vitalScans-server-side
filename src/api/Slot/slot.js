@@ -42,4 +42,29 @@ const getSlotById = async (req, res) => {
     }
 };
 
-module.exports = { addUpdateSlot, getAllSlots, getSlotById };
+// get all tests available in between a specific date range
+const getSlotsByDateRange = async (req, res) => {
+    try {
+        const startDate = req.params.startDate;
+        const endDate = req.params.endDate;
+        console.log(startDate, endDate);
+        if (!startDate || !endDate) {
+            const slots = await Slot.find().populate("testId");
+            return res.status(200).json({ slots });
+        }
+        const slots = await Slot.find({
+            testDate: { $gte: new Date(startDate), $lte: new Date(endDate) },
+        }).populate("testId");
+
+        res.status(200).json({ slots });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = {
+    addUpdateSlot,
+    getAllSlots,
+    getSlotById,
+    getSlotsByDateRange,
+};
