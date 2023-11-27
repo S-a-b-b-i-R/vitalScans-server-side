@@ -4,6 +4,7 @@ const {
     getAllBanners,
     setActiveBanner,
     getActivebanner,
+    getDiscountByCoupon,
 } = require("../../api/Banner/banner");
 const jwt = require("jsonwebtoken");
 const User = require("../../Model/User");
@@ -38,5 +39,6 @@ router.post("/banners", verifyToken, verifyAdmin, addBanner);
 router.get("/banners", verifyToken, verifyAdmin, getAllBanners);
 router.patch("/banners/:id", verifyToken, verifyAdmin, setActiveBanner);
 router.get("/banners/active", getActivebanner);
+router.get("/banners/discount/:coupon", getDiscountByCoupon);
 
 module.exports = router;

@@ -41,4 +41,20 @@ const getActivebanner = async (req, res) => {
     }
 };
 
-module.exports = { addBanner, getAllBanners, setActiveBanner, getActivebanner };
+const getDiscountByCoupon = async (req, res) => {
+    try {
+        const coupon = req.params.coupon;
+        const banner = await Banner.findOne({ coupon: coupon });
+        res.status(200).json({ discount: banner.discount });
+    } catch (error) {
+        res.status(200).json({ discount: 0 });
+    }
+};
+
+module.exports = {
+    addBanner,
+    getAllBanners,
+    setActiveBanner,
+    getActivebanner,
+    getDiscountByCoupon,
+};

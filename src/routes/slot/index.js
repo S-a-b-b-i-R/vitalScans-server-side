@@ -36,7 +36,7 @@ const verifyAdmin = async (req, res, next) => {
 
 router.post("/slots", verifyToken, verifyAdmin, addUpdateSlot);
 router.get("/slots", verifyToken, verifyAdmin, getAllSlots);
-router.get("/slots/:id", verifyToken, verifyAdmin, getSlotById);
+router.get("/slots/:id", verifyToken, getSlotById);
 router.get("/slots/:startDate/:endDate", getSlotsByDateRange);
 
 module.exports = router;

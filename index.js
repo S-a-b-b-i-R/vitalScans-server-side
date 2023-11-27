@@ -9,6 +9,8 @@ const userRoutes = require("./src/routes/user");
 const testRoutes = require("./src/routes/test");
 const slotRoutes = require("./src/routes/slot");
 const bannerRoutes = require("./src/routes/banner");
+const bookingRoutes = require("./src/routes/booking");
+const paymentRoutes = require("./src/routes/payment");
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +20,8 @@ app.use(userRoutes);
 app.use(testRoutes);
 app.use(slotRoutes);
 app.use(bannerRoutes);
+app.use(bookingRoutes);
+app.use(paymentRoutes);
 
 //routes
 app.get("/", (req, res) => {
