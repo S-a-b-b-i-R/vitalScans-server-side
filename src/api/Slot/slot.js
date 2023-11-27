@@ -23,4 +23,23 @@ const addUpdateSlot = async (req, res) => {
     }
 };
 
-module.exports = { addUpdateSlot };
+const getAllSlots = async (req, res) => {
+    try {
+        const slots = await Slot.find().populate("testId");
+        res.status(200).json({ slots });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getSlotById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const slot = await Slot.findById(id).populate("testId");
+        res.status(200).json({ slot });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { addUpdateSlot, getAllSlots, getSlotById };

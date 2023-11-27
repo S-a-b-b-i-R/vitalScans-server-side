@@ -1,5 +1,9 @@
 const router = require("express").Router();
-const { addUpdateSlot } = require("../../api/Slot/slot");
+const {
+    addUpdateSlot,
+    getAllSlots,
+    getSlotById,
+} = require("../../api/Slot/slot");
 const jwt = require("jsonwebtoken");
 const User = require("../../Model/User");
 
@@ -30,5 +34,7 @@ const verifyAdmin = async (req, res, next) => {
 };
 
 router.post("/slots", verifyToken, verifyAdmin, addUpdateSlot);
+router.get("/slots", verifyToken, verifyAdmin, getAllSlots);
+router.get("/slots/:id", verifyToken, verifyAdmin, getSlotById);
 
 module.exports = router;
