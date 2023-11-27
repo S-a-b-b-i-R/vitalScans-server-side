@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { getAllTests, getTestById, addTest } = require("../../api/Test/test");
 const jwt = require("jsonwebtoken");
+const User = require("../../Model/User");
 
 const verifyToken = (req, res, next) => {
     if (!req.headers.authorization) {
