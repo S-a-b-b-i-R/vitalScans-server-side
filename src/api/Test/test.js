@@ -52,10 +52,22 @@ const deleteTest = async (req, res) => {
     }
 };
 
+const updateTestById = async (req, res) => {
+    try {
+        const test = req.body;
+        const id = req.params.id;
+        const updatedTest = await Test.findByIdAndUpdate(id, test);
+        res.status(200).json({ test: updatedTest });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getAllTests,
     getTestById,
     addTest,
     getTotalNumOfTests,
     deleteTest,
+    updateTestById,
 };

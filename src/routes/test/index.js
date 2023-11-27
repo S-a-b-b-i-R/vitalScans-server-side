@@ -5,6 +5,7 @@ const {
     addTest,
     getTotalNumOfTests,
     deleteTest,
+    updateTestById,
 } = require("../../api/Test/test");
 const jwt = require("jsonwebtoken");
 const User = require("../../Model/User");
@@ -35,9 +36,10 @@ const verifyAdmin = async (req, res, next) => {
 };
 
 router.get("/tests", getAllTests);
-router.get("/tests/:id", verifyAdmin, getTestById);
+router.get("/tests/:id", verifyToken, getTestById);
 router.post("/tests", verifyToken, verifyAdmin, addTest);
 router.get("/tests/total", getTotalNumOfTests);
 router.delete("/tests/:id", verifyToken, verifyAdmin, deleteTest);
+router.put("/tests/:id", verifyToken, verifyAdmin, updateTestById);
 
 module.exports = router;
