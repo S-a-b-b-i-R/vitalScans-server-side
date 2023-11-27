@@ -1,5 +1,11 @@
 const router = require("express").Router();
-const { getAllTests, getTestById, addTest } = require("../../api/Test/test");
+const {
+    getAllTests,
+    getTestById,
+    addTest,
+    getTotalNumOfTests,
+    deleteTest,
+} = require("../../api/Test/test");
 const jwt = require("jsonwebtoken");
 const User = require("../../Model/User");
 
@@ -31,5 +37,7 @@ const verifyAdmin = async (req, res, next) => {
 router.get("/tests", getAllTests);
 router.get("/tests/:id", verifyAdmin, getTestById);
 router.post("/tests", verifyToken, verifyAdmin, addTest);
+router.get("/tests/total", getTotalNumOfTests);
+router.delete("/tests/:id", verifyToken, verifyAdmin, deleteTest);
 
 module.exports = router;

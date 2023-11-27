@@ -2,7 +2,11 @@ const Test = require("../../model/Test");
 
 const getAllTests = async (req, res) => {
     try {
-        const tests = await Test.find();
+        const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+        const tests = await Test.find()
+            .skip(page * limit)
+            .limit(limit);
         res.status(200).json({ tests });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -30,4 +34,28 @@ const addTest = async (req, res) => {
     }
 };
 
-module.exports = { getAllTests, getTestById, addTest };
+const getTotalNumOfTests = async (req, res) => {
+    try {
+        const totalNumOfTests = await Test.countDocuments();
+        res.status(200).json({ totalNumOfTests });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const deleteTest = async (req, res) => {
+    try {
+        const result = await Test.deleteOne({ _id: req.params.id });
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = {
+    getAllTests,
+    getTestById,
+    addTest,
+    getTotalNumOfTests,
+    deleteTest,
+};
