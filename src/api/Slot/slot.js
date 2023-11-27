@@ -10,7 +10,7 @@ const addUpdateSlot = async (req, res) => {
         if (ifExists) {
             const updatedSlot = await Slot.findOneAndUpdate(
                 { testId: slot.testId, testDate: slot.testDate },
-                { slot: slot.slot }
+                { slotNum: slot.slotNum }
             );
             res.status(200).json({ slot: updatedSlot });
         } else {
