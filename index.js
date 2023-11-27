@@ -7,6 +7,7 @@ const connectDB = require("./src/db/connectDB");
 const authRoutes = require("./src/routes/authentication");
 const userRoutes = require("./src/routes/user");
 const testRoutes = require("./src/routes/test");
+const slotRoutes = require("./src/routes/slot");
 
 app.use(cors());
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(testRoutes);
+app.use(slotRoutes);
 
 //routes
 app.get("/", (req, res) => {
