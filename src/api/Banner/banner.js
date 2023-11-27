@@ -32,4 +32,13 @@ const setActiveBanner = async (req, res) => {
     }
 };
 
-module.exports = { addBanner, getAllBanners, setActiveBanner };
+const getActivebanner = async (req, res) => {
+    try {
+        const banner = await Banner.findOne({ isActive: true });
+        res.status(200).json({ banner });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { addBanner, getAllBanners, setActiveBanner, getActivebanner };

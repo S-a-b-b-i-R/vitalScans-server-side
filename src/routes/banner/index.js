@@ -3,6 +3,7 @@ const {
     addBanner,
     getAllBanners,
     setActiveBanner,
+    getActivebanner,
 } = require("../../api/Banner/banner");
 const jwt = require("jsonwebtoken");
 const User = require("../../Model/User");
@@ -36,5 +37,6 @@ const verifyAdmin = async (req, res, next) => {
 router.post("/banners", verifyToken, verifyAdmin, addBanner);
 router.get("/banners", verifyToken, verifyAdmin, getAllBanners);
 router.patch("/banners/:id", verifyToken, verifyAdmin, setActiveBanner);
+router.get("/banners/active", getActivebanner);
 
 module.exports = router;
