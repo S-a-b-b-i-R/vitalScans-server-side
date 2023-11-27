@@ -47,7 +47,6 @@ const getSlotsByDateRange = async (req, res) => {
     try {
         const startDate = req.params.startDate;
         const endDate = req.params.endDate;
-        console.log(startDate, endDate);
         if (!startDate || !endDate) {
             const slots = await Slot.find().populate("testId");
             return res.status(200).json({ slots });
