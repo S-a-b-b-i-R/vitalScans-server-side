@@ -1,5 +1,6 @@
-const { model, Schema } = require("mongoose");
-
+const mongoose = require("mongoose");
+const { model, Schema } = mongoose;
+mongoose.Promise = global.Promise;
 const slotSchema = new Schema(
     {
         testDate: {
@@ -19,6 +20,4 @@ const slotSchema = new Schema(
     { timestamps: true, collection: "slotCollection" }
 );
 
-const Slot = model("slotCollection", slotSchema);
-
-module.exports = Slot;
+module.exports = mongoose.models.Slot || mongoose.model("Slot", slotSchema);

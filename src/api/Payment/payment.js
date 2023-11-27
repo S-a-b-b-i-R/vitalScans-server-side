@@ -1,3 +1,4 @@
+const Slot = require("../../model/Slot");
 const Booking = require("../../model/Booking");
 const Payment = require("../../model/Payment");
 
@@ -7,7 +8,8 @@ const makePayment = async (req, res) => {
         const newPayment = new Payment(payment);
         await newPayment.save();
         const bookingId = req.body.bookingId;
-        console.log(bookingId);
+        const slotId = req.body.slotId;
+        await Slot.findByIdAndUpdate(slotId, { $inc: { slotNum: -1 } });
         await Booking.deleteOne({ _id: bookingId });
         res.status(200).json({ payment: newPayment });
     } catch (error) {
