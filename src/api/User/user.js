@@ -82,6 +82,16 @@ const checkAdmin = async (req, res) => {
     res.status(200).json({ isAdmin });
 };
 
+const makeAdmin = async (req, res) => {
+    try {
+        await User.findOneAndUpdate({ _id: req.params.id }, { role: "admin" });
+        res.status(200).json({ message: "success" });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     addUser,
     updateUserByEmail,
@@ -89,4 +99,5 @@ module.exports = {
     isUpdatedUser,
     getAllUsers,
     checkAdmin,
+    makeAdmin,
 };
