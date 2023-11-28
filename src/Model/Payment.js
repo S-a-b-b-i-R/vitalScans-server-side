@@ -1,4 +1,6 @@
-const { model, Schema } = require("mongoose");
+const mongoose = require("mongoose");
+const { model, Schema } = mongoose;
+mongoose.Promise = global.Promise;
 
 const paymentSchema = new Schema(
     {
@@ -41,6 +43,5 @@ const paymentSchema = new Schema(
     { timestamps: true, collection: "paymentCollection" }
 );
 
-const Payment = model("paymentCollection", paymentSchema);
-
-module.exports = Payment;
+module.exports =
+    mongoose.models.Payment || mongoose.model("Payment", paymentSchema);

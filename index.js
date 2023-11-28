@@ -11,6 +11,7 @@ const slotRoutes = require("./src/routes/slot");
 const bannerRoutes = require("./src/routes/banner");
 const bookingRoutes = require("./src/routes/booking");
 const paymentRoutes = require("./src/routes/payment");
+const reportRoutes = require("./src/routes/report");
 
 app.use(cors());
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use(slotRoutes);
 app.use(bannerRoutes);
 app.use(bookingRoutes);
 app.use(paymentRoutes);
+app.use(reportRoutes);
 
 //routes
 app.get("/", (req, res) => {

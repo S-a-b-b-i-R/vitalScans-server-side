@@ -24,11 +24,38 @@ const getPaymentByUserId = async (req, res) => {
         if (req.decoded.email !== req.params.email) {
             res.sendStatus(403).send({ message: "Forbidden Access" });
         }
-        const payment = await Payment.find(query);
+        const payment = await Payment.find(query).populate("testId");
         res.status(200).json({ payment });
     } catch (err) {
+        console.log(err.message);
         res.status(500).json({ message: err.message });
     }
 };
 
-module.exports = { makePayment, getPaymentByUserId };
+const getAllPayments = async (req, res) => {
+    try {
+        const payments = await Payment.find().populate("testId");
+        res.status(200).json({ payments });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const getPaymnetById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const payment = await Payment.findById(id).populate("testId");
+        res.status(200).json({ payment });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ message: err.message });
+    }
+};
+
+module.exports = {
+    makePayment,
+    getPaymentByUserId,
+    getAllPayments,
+    getPaymnetById,
+};
