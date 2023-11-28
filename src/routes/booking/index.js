@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const User = require("../../Model/User");
-const { addBooking, getBookingsByEmail } = require("../../api/Booking/booking");
+const {
+    addBooking,
+    getBookingsByEmail,
+    getTopThreeTestFromBookings,
+} = require("../../api/Booking/booking");
 
 const verifyToken = (req, res, next) => {
     if (!req.headers.authorization) {
@@ -20,5 +24,6 @@ const verifyToken = (req, res, next) => {
 
 router.post("/bookings", verifyToken, addBooking);
 router.get("/bookings/:email", verifyToken, getBookingsByEmail);
+router.get("/topbookings", getTopThreeTestFromBookings);
 
 module.exports = router;

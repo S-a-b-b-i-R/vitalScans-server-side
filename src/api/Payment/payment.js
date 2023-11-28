@@ -20,7 +20,6 @@ const makePayment = async (req, res) => {
 
 const getPaymentByUserId = async (req, res) => {
     try {
-        console.log("first");
         const query = { email: req.params.email };
         if (req.decoded.email !== req.params.email) {
             res.sendStatus(403).send({ message: "Forbidden Access" });

@@ -24,4 +24,27 @@ const getBookingsByEmail = async (req, res) => {
     }
 };
 
-module.exports = { addBooking, getBookingsByEmail };
+const getTopThreeTestFromBookings = async (req, res) => {
+    try {
+        const bookings = await Booking.aggregate([
+            {
+                $group: {
+                    _id: "$testId",
+                    count: { $sum: 1 },
+                },
+            },
+            { $sort: { count: -1 } },
+            { $limit: 3 },
+        ]);
+        res.status(200).json({ bookings });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = {
+    addBooking,
+    getBookingsByEmail,
+    getTopThreeTestFromBookings,
+};

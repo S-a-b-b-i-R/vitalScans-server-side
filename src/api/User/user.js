@@ -21,7 +21,6 @@ const addUser = async (req, res) => {
 const updateUserByEmail = async (req, res) => {
     try {
         const user = req.body;
-        console.log(user);
         await User.findOneAndUpdate(
             { email: user.email },
             {
