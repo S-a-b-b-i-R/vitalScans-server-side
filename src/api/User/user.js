@@ -94,13 +94,11 @@ const makeAdmin = async (req, res) => {
 
 const blockUserById = async (req, res) => {
     try {
-        await User.findOneAndUpdate(
-            { _id: req.params.id },
-            { isActive: false }
-        );
+        const user = await User.findById(req.params.id);
+        const isActive = user.isActive;
+        await User.findByIdAndUpdate(req.params.id, { isActive: !isActive });
         res.status(200).json({ message: "success" });
     } catch (error) {
-        console.log(error.message);
         res.status(500).json({ message: error.message });
     }
 };
