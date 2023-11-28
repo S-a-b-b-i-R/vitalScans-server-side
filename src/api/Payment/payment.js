@@ -10,7 +10,7 @@ const makePayment = async (req, res) => {
         const bookingId = req.body.bookingId;
         const slotId = req.body.slotId;
         await Slot.findByIdAndUpdate(slotId, { $inc: { slotNum: -1 } });
-        await Booking.deleteOne({ _id: bookingId });
+        // await Booking.deleteOne({ _id: bookingId });
         res.status(200).json({ payment: newPayment });
     } catch (error) {
         console.log(error.message);
@@ -20,6 +20,7 @@ const makePayment = async (req, res) => {
 
 const getPaymentByUserId = async (req, res) => {
     try {
+        console.log("first");
         const query = { email: req.params.email };
         if (req.decoded.email !== req.params.email) {
             res.sendStatus(403).send({ message: "Forbidden Access" });
@@ -32,13 +33,38 @@ const getPaymentByUserId = async (req, res) => {
     }
 };
 
-const getAllPayments = async (req, res) => {
+const getPaymentSuccessByUserId = async (req, res) => {
     try {
-        const payments = await Payment.find().populate("testId");
-        res.status(200).json({ payments });
+        if (req.decoded.email !== req.params.email) {
+            res.sendStatus(403).send({ message: "Forbidden Access" });
+        }
+        const payment = await Payment.find({
+            email: req.params.email,
+            status: "success",
+        }).populate("testId");
+        res.status(200).json({ payment });
     } catch (err) {
         console.log(err.message);
         res.status(500).json({ message: err.message });
+    }
+};
+
+const getAllPayments = async (req, res) => {
+    try {
+        // const searchstring = req.params.searchstring;
+        // console.log(searchstring);
+        // if (searchstring !== "null") {
+        //     const payments = await Payment.find({
+        //         email: { $regex: searchstring, $options: "i" },
+        //     }).populate("testId");
+        //     return res.status(200).json({ payments });
+        // } else {
+        const payments = await Payment.find().populate("testId");
+        return res.status(200).json({ payments });
+        // }
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).json({ message: err.message });
     }
 };
 
@@ -58,4 +84,5 @@ module.exports = {
     getPaymentByUserId,
     getAllPayments,
     getPaymnetById,
+    getPaymentSuccessByUserId,
 };

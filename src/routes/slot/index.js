@@ -4,6 +4,7 @@ const {
     getAllSlots,
     getSlotById,
     getSlotsByDateRange,
+    getTotalSlotNumberByDateRange,
 } = require("../../api/Slot/slot");
 const jwt = require("jsonwebtoken");
 const User = require("../../Model/User");
@@ -38,5 +39,6 @@ router.post("/slots", verifyToken, verifyAdmin, addUpdateSlot);
 router.get("/slots", getAllSlots);
 router.get("/slots/:id", verifyToken, getSlotById);
 router.get("/slots/:startDate/:endDate", getSlotsByDateRange);
+router.get("/slotnum/:startDate/:endDate", getTotalSlotNumberByDateRange);
 
 module.exports = router;

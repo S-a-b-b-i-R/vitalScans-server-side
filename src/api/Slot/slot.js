@@ -47,15 +47,41 @@ const getSlotsByDateRange = async (req, res) => {
     try {
         const startDate = req.params.startDate;
         const endDate = req.params.endDate;
+        const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
         if (!startDate || !endDate) {
-            const slots = await Slot.find().populate("testId");
+            const slots = await Slot.find()
+                .populate("testId")
+                .skip(page * limit)
+                .limit(limit);
             return res.status(200).json({ slots });
         }
         const slots = await Slot.find({
             testDate: { $gte: new Date(startDate), $lte: new Date(endDate) },
-        }).populate("testId");
-
+        })
+            .populate("testId")
+            .skip(page * limit)
+            .limit(limit);
         res.status(200).json({ slots });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getTotalSlotNumberByDateRange = async (req, res) => {
+    try {
+        const startDate = req.params.startDate;
+        const endDate = req.params.endDate;
+        if (!startDate || !endDate) {
+            const slots = await Slot.find().populate("testId");
+            const slotNumber = slots.length;
+            return res.status(200).json({ slotNumber });
+        }
+        const slots = await Slot.find({
+            testDate: { $gte: new Date(startDate), $lte: new Date(endDate) },
+        }).populate("testId");
+        const slotNumber = slots.length;
+        res.status(200).json({ slotNumber });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -66,4 +92,5 @@ module.exports = {
     getAllSlots,
     getSlotById,
     getSlotsByDateRange,
+    getTotalSlotNumberByDateRange,
 };
