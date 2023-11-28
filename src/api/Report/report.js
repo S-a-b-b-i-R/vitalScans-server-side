@@ -1,5 +1,4 @@
 const Report = require("../../Model/Report");
-const Payment = require("../../Model/Payment");
 
 const addReport = async (req, res) => {
     try {
@@ -14,11 +13,25 @@ const addReport = async (req, res) => {
         );
         res.status(200).json({ report: newReport });
     } catch (error) {
-        console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getReportByPaymentId = async (req, res) => {
+    try {
+        const paymentId = req.params.paymentId;
+        const report = await Report.findOne({
+            paymentId: paymentId,
+        })
+            .populate("userId")
+            .populate("testId");
+        res.status(200).json({ report });
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
 module.exports = {
     addReport,
+    getReportByPaymentId,
 };

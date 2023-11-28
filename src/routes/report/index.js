@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { addReport } = require("../../api/Report/report");
+const { addReport, getReportByPaymentId } = require("../../api/Report/report");
 const jwt = require("jsonwebtoken");
 const User = require("../../Model/User");
 
@@ -30,5 +30,6 @@ const verifyAdmin = async (req, res, next) => {
 };
 
 router.post("/reports", verifyToken, verifyAdmin, addReport);
+router.get("/report/:paymentId", verifyToken, getReportByPaymentId);
 
 module.exports = router;
