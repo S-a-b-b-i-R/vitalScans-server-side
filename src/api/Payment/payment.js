@@ -78,10 +78,26 @@ const getPaymnetById = async (req, res) => {
     }
 };
 
+const cancelPaymentById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const payment = await Payment.findById(id);
+        if (payment.status === "success") {
+            return res.status(400).json({ message: "Test already done" });
+        }
+        await Payment.findByIdAndDelete(id);
+        res.status(200).json({ message: "success" });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     makePayment,
     getPaymentByUserId,
     getAllPayments,
     getPaymnetById,
     getPaymentSuccessByUserId,
+    cancelPaymentById,
 };

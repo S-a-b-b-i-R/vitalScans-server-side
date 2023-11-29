@@ -16,6 +16,8 @@ const bannerRoutes = require("./routes/banner");
 const bookingRoutes = require("./routes/booking");
 const paymentRoutes = require("./routes/payment");
 const reportRoutes = require("./routes/report");
+const promoRoutes = require("./routes/promo");
+const serviceRoutes = require("./routes/service");
 
 applyMiddlewares(app);
 
@@ -27,6 +29,8 @@ app.use(bannerRoutes);
 app.use(bookingRoutes);
 app.use(paymentRoutes);
 app.use(reportRoutes);
+app.use(promoRoutes);
+app.use(serviceRoutes);
 
 //routes
 app.get("/", (req, res) => {
