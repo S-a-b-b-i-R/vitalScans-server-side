@@ -26,17 +26,13 @@ const getBookingsByEmail = async (req, res) => {
 
 const getTopThreeTestFromBookings = async (req, res) => {
     try {
-        const bookings = await Booking.aggregate([
-            {
-                $group: {
-                    _id: "$testId",
-                    count: { $sum: 1 },
-                },
-            },
+        //get top three test by number of bokkings, populate testId
+        const topThreeTests = await Booking.aggregate([
+            { $group: { _id: "$testId", count: { $sum: 1 } } },
             { $sort: { count: -1 } },
             { $limit: 3 },
-        ]);
-        res.status(200).json({ bookings });
+        ]).exec();
+        res.status(200).json({ topThreeTests });
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ message: error.message });
