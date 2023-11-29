@@ -1,4 +1,5 @@
 const Booking = require("../../model/Booking");
+const Test = require("../../model/Test");
 
 const addBooking = async (req, res) => {
     try {
@@ -32,6 +33,12 @@ const getTopThreeTestFromBookings = async (req, res) => {
             { $sort: { count: -1 } },
             { $limit: 3 },
         ]).exec();
+        //using the top three test ids, populate the test details
+        for (let i = 0; i < topThreeTests.length; i++) {
+            const test = await Test.findById(topThreeTests[i]._id);
+            topThreeTests[i].test = test;
+        }
+
         res.status(200).json({ topThreeTests });
     } catch (error) {
         console.log(error.message);
