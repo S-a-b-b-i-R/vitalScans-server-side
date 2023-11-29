@@ -6,6 +6,7 @@ const {
     getPaymnetById,
     getPaymentSuccessByUserId,
     cancelPaymentById,
+    salesStats,
 } = require("../../api/Payment/payment");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
@@ -55,5 +56,6 @@ router.get("/payments", verifyToken, verifyAdmin, getAllPayments);
 router.get("/payment/:id", verifyToken, getPaymnetById);
 router.get("/paymentsuccess/:email", verifyToken, getPaymentSuccessByUserId);
 router.patch("/payments/:id", verifyToken, cancelPaymentById);
+router.get("/salesstats", salesStats);
 
 module.exports = router;

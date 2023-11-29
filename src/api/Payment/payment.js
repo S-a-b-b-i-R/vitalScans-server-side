@@ -10,7 +10,6 @@ const makePayment = async (req, res) => {
         const bookingId = req.body.bookingId;
         const slotId = req.body.slotId;
         await Slot.findByIdAndUpdate(slotId, { $inc: { slotNum: -1 } });
-        // await Booking.deleteOne({ _id: bookingId });
         res.status(200).json({ payment: newPayment });
     } catch (error) {
         console.log(error.message);
@@ -50,17 +49,8 @@ const getPaymentSuccessByUserId = async (req, res) => {
 
 const getAllPayments = async (req, res) => {
     try {
-        // const searchstring = req.params.searchstring;
-        // console.log(searchstring);
-        // if (searchstring !== "null") {
-        //     const payments = await Payment.find({
-        //         email: { $regex: searchstring, $options: "i" },
-        //     }).populate("testId");
-        //     return res.status(200).json({ payments });
-        // } else {
         const payments = await Payment.find().populate("testId");
         return res.status(200).json({ payments });
-        // }
     } catch (err) {
         console.log(err.message);
         return res.status(500).json({ message: err.message });
@@ -95,6 +85,40 @@ const cancelPaymentById = async (req, res) => {
     }
 };
 
+// get total slaes by test, number of tests of each test, total sales
+const salesStats = async (req, res) => {
+    try {
+        const totalSalesByTest = await Payment.aggregate([
+            {
+                $lookup: {
+                    from: "testCollection",
+                    localField: "testId",
+                    foreignField: "_id",
+                    as: "testDetails",
+                },
+            },
+            {
+                $unwind: "$testDetails",
+            },
+            {
+                $group: {
+                    _id: "$testId",
+                    testTitle: { $first: "$testDetails.title" },
+                    totalBooked: { $sum: 1 },
+                    totalSales: { $sum: "$amount" },
+                },
+            },
+        ]);
+
+        res.status(200).json({
+            totalSalesByTest,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     makePayment,
     getPaymentByUserId,
@@ -102,4 +126,5 @@ module.exports = {
     getPaymnetById,
     getPaymentSuccessByUserId,
     cancelPaymentById,
+    salesStats,
 };
