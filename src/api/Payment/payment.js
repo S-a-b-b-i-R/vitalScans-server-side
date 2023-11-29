@@ -85,6 +85,8 @@ const cancelPaymentById = async (req, res) => {
         if (payment.status === "success") {
             return res.status(400).json({ message: "Test already done" });
         }
+        const slotId = payment.slotId;
+        await Slot.findByIdAndUpdate(slotId, { $inc: { slotNum: 1 } });
         await Payment.findByIdAndDelete(id);
         res.status(200).json({ message: "success" });
     } catch (err) {

@@ -54,6 +54,6 @@ router.post("/payments", verifyToken, makePayment);
 router.get("/payments", verifyToken, verifyAdmin, getAllPayments);
 router.get("/payment/:id", verifyToken, getPaymnetById);
 router.get("/paymentsuccess/:email", verifyToken, getPaymentSuccessByUserId);
-router.patch("/payments/:id", verifyToken, verifyAdmin, cancelPaymentById);
+router.patch("/payments/:id", verifyToken, cancelPaymentById);
 
 module.exports = router;
