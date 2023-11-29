@@ -1,6 +1,4 @@
-const mongoose = require("mongoose");
-const { model, Schema } = mongoose;
-mongoose.Promise = global.Promise;
+const { model, Schema } = require("mongoose");
 
 const userSchema = new Schema(
     {
@@ -38,4 +36,6 @@ const userSchema = new Schema(
     }
 );
 
-module.exports = mongoose.models.User || mongoose.model("User", userSchema);
+const User = model("userCollection", userSchema);
+
+module.exports = User;

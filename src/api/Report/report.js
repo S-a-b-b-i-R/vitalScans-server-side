@@ -23,10 +23,12 @@ const getReportByPaymentId = async (req, res) => {
         const report = await Report.findOne({
             paymentId: paymentId,
         })
+            .populate("testId")
             .populate("userId")
-            .populate("testId");
+            .exec();
         res.status(200).json({ report });
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: error.message });
     }
 };
