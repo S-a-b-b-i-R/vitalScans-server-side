@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { addReport, getReportByPaymentId } = require("../../api/Report/report");
 const jwt = require("jsonwebtoken");
-const User = require("../../Model/User");
+const User = require("../../model/User");
 
 const verifyToken = (req, res, next) => {
     if (!req.headers.authorization) {

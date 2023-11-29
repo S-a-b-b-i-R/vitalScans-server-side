@@ -10,7 +10,7 @@ const {
 } = require("../../api/User/user");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
-const User = require("../../Model/User");
+const User = require("../../model/User");
 
 const verifyToken = (req, res, next) => {
     if (!req.headers.authorization) {

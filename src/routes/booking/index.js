@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
-const User = require("../../Model/User");
+const User = require("../../model/User");
 const {
     addBooking,
     getBookingsByEmail,

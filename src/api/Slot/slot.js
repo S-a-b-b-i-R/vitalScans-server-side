@@ -1,4 +1,4 @@
-const Slot = require("../../Model/Slot");
+const Slot = require("../../model/Slot");
 
 const addUpdateSlot = async (req, res) => {
     try {

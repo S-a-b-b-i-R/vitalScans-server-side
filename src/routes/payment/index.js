@@ -9,7 +9,7 @@ const {
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const User = require("../../Model/User");
+const User = require("../../model/User");
 
 const verifyToken = (req, res, next) => {
     if (!req.headers.authorization) {

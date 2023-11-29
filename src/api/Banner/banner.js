@@ -1,4 +1,4 @@
-const Banner = require("../../Model/Banner");
+const Banner = require("../../model/Banner");
 
 const addBanner = async (req, res) => {
     try {
