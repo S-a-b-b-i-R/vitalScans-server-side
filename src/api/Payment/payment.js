@@ -119,6 +119,23 @@ const salesStats = async (req, res) => {
     }
 };
 
+const searchPaymentByUserEmail = async (req, res) => {
+    try {
+        const email = req.params.email;
+        if (email === "null") {
+            const payments = await Payment.find().populate("testId");
+            return res.status(200).json({ payments });
+        }
+        const payments = await Payment.find({
+            email: { $regex: email, $options: "i" },
+        }).populate("testId");
+        res.status(200).json({ payments });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     makePayment,
     getPaymentByUserId,
@@ -127,4 +144,5 @@ module.exports = {
     getPaymentSuccessByUserId,
     cancelPaymentById,
     salesStats,
+    searchPaymentByUserEmail,
 };
